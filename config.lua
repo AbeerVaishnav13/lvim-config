@@ -18,6 +18,9 @@ lvim.transparent_window = true
 vim.opt.wrap = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.smartindent = true
 
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
