@@ -16,6 +16,8 @@ vim.opt.relativenumber = true
 vim.opt.scrolloff = 5
 lvim.transparent_window = true
 vim.opt.wrap = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
 
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
