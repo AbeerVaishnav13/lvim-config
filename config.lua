@@ -1,14 +1,4 @@
---[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
--- general
+-- General options
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
 lvim.colorscheme = "catppuccin-mocha"
@@ -21,15 +11,21 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
+vim.opt.colorcolumn = "100"
 
--- to disable icons and use a minimalist setup, uncomment the following
--- lvim.use_icons = false
+-- Some more UI options
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.terminal.active = true
+lvim.builtin.nvimtree.setup.view.side = "left"
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
--- keymappings [view all the defaults by pressing <leader>sk]
+-- Keymappings [view all the defaults by pressing <leader>sk]
+---- Leader keymap
 lvim.leader = "space"
 
--- add your own keymapping
 -- Normal mode
+---- global keymaps
 lvim.keys.normal_mode["<C-c>"] = "<esc><cmd>noh<cr>"
 lvim.keys.normal_mode["W"] = "<cmd>w<cr>"
 lvim.keys.normal_mode["U"] = "u"
@@ -40,24 +36,30 @@ lvim.keys.normal_mode["<c-w>u"] = "<c-w>k"
 lvim.keys.normal_mode["K"] = "<cmd>BufferLineCycleNext<cr>"
 lvim.keys.normal_mode["H"] = "<cmd>BufferLineCyclePrev<cr>"
 
+---- LSP keymaps
 lvim.lsp.buffer_mappings.normal_mode["gk"] = { vim.lsp.buf.hover, "Show Documentation" }
 lvim.lsp.buffer_mappings.normal_mode["gt"] = { vim.lsp.buf.type_definition, "Goto type definition" }
 lvim.lsp.buffer_mappings.normal_mode["]d"] = { vim.diagnostic.goto_next, "Next Diagnostic" }
 lvim.lsp.buffer_mappings.normal_mode["[d"] = { vim.diagnostic.goto_prev, "Prev Diagnostic" }
+
+---- Diable default LSP keymaps by LunarVim
 lvim.lsp.buffer_mappings.normal_mode["K"] = nil
 lvim.lsp.buffer_mappings.normal_mode["<leader>lj"] = nil
 lvim.lsp.buffer_mappings.normal_mode["<leader>lk"] = nil
 
 -- Visual mode
+---- global keymaps
 lvim.keys.visual_mode["<C-c>"] = "<esc><cmd>noh<cr>"
 lvim.keys.visual_mode["u"] = "k"
 lvim.keys.visual_mode["k"] = "l"
 
 -- Normal/Visual --> Command mode
+---- global keymaps
 vim.keymap.set({ "n", "v" }, ";", ":")
 vim.keymap.set({ "n", "v" }, ":", ";")
 
 -- Insert mode
+---- global keymaps
 lvim.keys.insert_mode["<C-c>"] = "<esc><cmd>noh<cr>"
 
 -- Modify the quitting functionality
@@ -84,11 +86,7 @@ end
 
 vim.keymap.set({ "n", "v" }, "Q", buf_close_or_quit)
 
--- unmap a default keymapping
--- vim.keymap.del("n", "l")
--- override a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = "<cmd>q<cr>" -- or vim.keymap.set("n", "<C-q>", "<cmd>q<cr>" )
-
+-- [[Plugins]]
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 local _, actions = pcall(require, "telescope.actions")
@@ -107,10 +105,6 @@ lvim.builtin.telescope.defaults.mappings = {
 	},
 }
 
--- Change theme settings
--- lvim.builtin.theme.options.dim_inactive = true
--- lvim.builtin.theme.options.style = "storm"
-
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<cr>", "Projects" }
 -- lvim.builtin.which_key.mappings["t"] = {
@@ -122,14 +116,6 @@ lvim.builtin.telescope.defaults.mappings = {
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
 --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 -- }
-
--- TODO: User Config for predefined plugins
--- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.highlight.enable = true
