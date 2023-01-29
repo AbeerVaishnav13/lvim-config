@@ -2,9 +2,9 @@
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
 lvim.colorscheme = "catppuccin-mocha"
+lvim.transparent_window = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 5
-lvim.transparent_window = true
 vim.opt.wrap = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -85,6 +85,21 @@ local function buf_close_or_quit()
 end
 
 vim.keymap.set({ "n", "v" }, "Q", buf_close_or_quit)
+
+-- Some extra keymaps (inspired from ThePrimagen)
+---- Paste without copying new text
+vim.keymap.set("x", "p", '"_dP')
+
+---- Move selected lines
+lvim.keys.visual_mode["J"] = ":m '>+1<cr>gv=gv"
+lvim.keys.visual_mode["U"] = ":m '<-2<cr>gv=gv"
+
+---- Keep cursor at same position with motions
+lvim.keys.normal_mode["J"] = "mzJ`z"
+lvim.keys.normal_mode["<c-d>"] = "<c-d>zz"
+lvim.keys.normal_mode["<c-u>"] = "<c-u>zz"
+lvim.keys.normal_mode["n"] = "nzz"
+lvim.keys.normal_mode["N"] = "Nzz"
 
 -- [[Plugins]]
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
