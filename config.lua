@@ -35,6 +35,7 @@ lvim.keys.normal_mode["<c-w>k"] = "<c-w>l"
 lvim.keys.normal_mode["<c-w>u"] = "<c-w>k"
 lvim.keys.normal_mode["K"] = "<cmd>BufferLineCycleNext<cr>"
 lvim.keys.normal_mode["H"] = "<cmd>BufferLineCyclePrev<cr>"
+vim.keymap.set("n", "S", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<left><left><left>")
 
 ---- LSP keymaps
 lvim.lsp.buffer_mappings.normal_mode["gk"] = { vim.lsp.buf.hover, "Show Documentation" }
