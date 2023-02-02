@@ -142,6 +142,7 @@ lvim.builtin.treesitter.ensure_installed = {
 	"cmake",
 	"css",
 	"fennel",
+	"fish",
 	"html",
 	"java",
 	"javascript",
@@ -246,6 +247,9 @@ lvim.plugins = {
 		"catppuccin/nvim",
 		as = "catppuccin",
 	},
+	{
+		"dag/vim-fish",
+	},
 }
 
 -- nvim-surround setup
@@ -271,6 +275,26 @@ lvim.keys.normal_mode["<leader>lg"] = "<cmd>LazyGit<cr>"
 local treesitter_ctx = require("treesitter-context")
 local ts_ctx_opts = { enable = true, max_lines = -1, trim_scope = "inner", separator = "-", mode = "cursor" }
 treesitter_ctx.setup(ts_ctx_opts)
+
+-- [[ DAP Configuration ]]
+local dap = require("dap")
+dap.adapters.python = {
+	type = "executable",
+	command = "python3",
+	args = { "-m", "debugpy.adapter" },
+}
+
+dap.configurations.python = {
+	{
+		type = "python",
+		request = "launch",
+		name = "Launch file",
+		program = "${file}",
+		pythonPath = function()
+			return "python3"
+		end,
+	},
+}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
