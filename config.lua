@@ -102,6 +102,12 @@ lvim.keys.normal_mode["<c-u>"] = "<c-u>zz"
 lvim.keys.normal_mode["n"] = "nzz"
 lvim.keys.normal_mode["N"] = "Nzz"
 
+-- Utility functions
+P = function(tbl)
+	print(vim.inspect(tbl))
+	return tbl
+end
+
 -- [[Plugins]]
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
