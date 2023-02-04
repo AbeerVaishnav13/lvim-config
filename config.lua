@@ -1,5 +1,5 @@
 -- General options
-require("options")
+require("user-opts")
 
 -- Keymaps
 require("keymaps")
