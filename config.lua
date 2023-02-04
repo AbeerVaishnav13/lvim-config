@@ -23,6 +23,7 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 -- Keymappings [view all the defaults by pressing <leader>sk]
 ---- Leader keymap
 lvim.leader = "space"
+vim.g.mapleader = " "
 
 -- Normal mode
 ---- global keymaps
@@ -48,6 +49,10 @@ lvim.lsp.buffer_mappings.normal_mode["[d"] = { vim.diagnostic.goto_prev, "Prev D
 lvim.lsp.buffer_mappings.normal_mode["K"] = nil
 lvim.lsp.buffer_mappings.normal_mode["<leader>lj"] = nil
 lvim.lsp.buffer_mappings.normal_mode["<leader>lk"] = nil
+
+---- Disable the annoying <leader>c (Close Buffer)
+---- mapping from whichkey
+lvim.builtin.which_key.mappings["c"] = nil
 
 -- Visual mode
 ---- global keymaps
