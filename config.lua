@@ -35,6 +35,7 @@ lvim.keys.normal_mode["<c-w>k"] = "<c-w>l"
 lvim.keys.normal_mode["<c-w>u"] = "<c-w>k"
 lvim.keys.normal_mode["K"] = "<cmd>BufferLineCycleNext<cr>"
 lvim.keys.normal_mode["H"] = "<cmd>BufferLineCyclePrev<cr>"
+lvim.keys.normal_mode["<c-t>"] = "<cmd>vsplit<cr><cmd>term fish<cr>A"
 vim.keymap.set("n", "S", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<left><left><left>")
 
 ---- LSP keymaps
@@ -64,7 +65,7 @@ vim.keymap.set({ "n", "v" }, ":", ";")
 lvim.keys.insert_mode["<C-c>"] = "<esc><cmd>noh<cr>"
 
 -- Modify the quitting functionality
-local function num_active_bufs()
+local num_active_bufs = function()
 	local bufs = {}
 	for buf = 1, vim.fn.bufnr("$"), 1 do
 		local is_listed = (vim.fn.buflisted(buf) == 1)
@@ -76,16 +77,22 @@ local function num_active_bufs()
 	return #bufs
 end
 
-local function buf_close_or_quit()
+Buf_close_or_quit = function(force)
 	local num_bufs = num_active_bufs()
+	local force_str = force or ""
+	local buf_type = string.sub(vim.api.nvim_buf_get_name(0), 1, 4)
+	if buf_type == "term" then
+		force_str = "!"
+	end
 	if num_bufs > 1 then
-		return vim.cmd("bdelete")
+		return vim.cmd("bdelete" .. force_str)
 	else
-		return vim.cmd("quit")
+		return vim.cmd("quit" .. force_str)
 	end
 end
 
-vim.keymap.set({ "n", "v" }, "Q", buf_close_or_quit)
+vim.keymap.set({ "n", "v" }, "Q", Buf_close_or_quit)
+vim.keymap.set("t", "SQ", "<c-\\><c-n><cmd>lua Buf_close_or_quit('!')<cr>", { silent = true })
 
 -- Some extra keymaps (inspired from ThePrimagen)
 ---- Paste without copying new text
@@ -101,6 +108,37 @@ lvim.keys.normal_mode["<c-d>"] = "<c-d>zz"
 lvim.keys.normal_mode["<c-u>"] = "<c-u>zz"
 lvim.keys.normal_mode["n"] = "nzz"
 lvim.keys.normal_mode["N"] = "Nzz"
+
+-- Save and source the current lua file
+local save_and_source = function()
+	local cur_file = vim.fn.bufname()
+	local filename = vim.split(cur_file, ".", { plain = true })[1]
+	package.loaded[filename] = nil
+	vim.cmd("write")
+	vim.cmd("source %")
+	print("Saved and loaded " .. cur_file)
+end
+
+vim.keymap.set("n", "<leader>ss", save_and_source)
+
+-- Cht.sh integration for queries
+local cht_sh_search = function()
+	-- local lang = vim.fn.input({ prompt = "Enter language: " })
+	local lang = vim.api.nvim_buf_get_option(0, "filetype")
+	local input_str = vim.fn.input({ prompt = "Query: " })
+	local search_str = string.gsub(input_str, " ", "+")
+	local url = "curl cht.sh/" .. lang .. "/" .. search_str
+
+	vim.cmd("vsplit")
+	vim.cmd("term fish")
+
+	vim.fn.setreg("a", url)
+	-- vim.cmd('norm $"apA')
+	vim.api.nvim_feedkeys('$"apA', "n", false)
+end
+
+-- lvim.keys.normal_mode["<leader>c"] = nil
+vim.keymap.set("n", "<leader>cs", cht_sh_search)
 
 -- Utility functions
 P = function(tbl)
