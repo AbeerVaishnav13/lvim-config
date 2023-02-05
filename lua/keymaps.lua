@@ -1,5 +1,8 @@
 -- Keymappings [view all the defaults by pressing <leader>sk]
+
+-- Import util functions and LSP handlers
 local utils = require("utils")
+local lsp_handlers = require("cstm-lsp-handlers")
 
 ---- Leader keymap
 lvim.leader = "space"
@@ -14,6 +17,12 @@ lvim.keys.normal_mode["u"] = "k"
 lvim.keys.normal_mode["k"] = "l"
 lvim.keys.normal_mode["<c-w>k"] = "<c-w>l"
 lvim.keys.normal_mode["<c-w>u"] = "<c-w>k"
+lvim.keys.normal_mode["<c-w>."] = "<c-w>>"
+lvim.keys.normal_mode["<c-w>,"] = "<c-w><"
+lvim.keys.normal_mode["<c-w>="] = "<c-w>+"
+lvim.keys.normal_mode["<c-w>+"] = "<c-w>="
+lvim.keys.normal_mode["<c-w><c-v>"] = "<c-w>t<c-w>H"
+lvim.keys.normal_mode["<c-w><c-h>"] = "<c-w>t<c-w>K"
 lvim.keys.normal_mode["K"] = "<cmd>BufferLineCycleNext<cr>"
 lvim.keys.normal_mode["H"] = "<cmd>BufferLineCyclePrev<cr>"
 lvim.keys.normal_mode["<c-t>"] = "<cmd>vsplit<cr><cmd>term fish<cr>A"
@@ -52,7 +61,7 @@ lvim.keys.insert_mode["<C-c>"] = "<esc><cmd>noh<cr>"
 -- Modify the quitting functionality
 vim.keymap.set({ "n", "v" }, "Q", utils.buf_close_or_quit)
 vim.keymap.set("t", "SQ", function()
-    utils.buf_close_or_quit("!")
+	utils.buf_close_or_quit("!")
 end, { silent = true })
 
 -- Some extra keymaps (inspired from ThePrimagen)
@@ -75,3 +84,6 @@ vim.keymap.set("n", "<leader>ss", utils.save_and_source)
 
 -- Cht.sh integration for queries
 vim.keymap.set("n", "<leader>cs", utils.cht_sh_search)
+
+-- Custom LSP handlers keymaps
+vim.keymap.set({ "n", "v" }, "<leader>qr", lsp_handlers.rename_with_qflist)
