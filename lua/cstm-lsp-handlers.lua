@@ -1,32 +1,6 @@
 local M = {}
 
-M._lua = function(err, result)
-	if err then
-		return
-	end
-
-	local entries = {}
-	if result.changes then
-		for uri, edits in pairs(result.changes) do
-			local bufnr = vim.uri_to_bufnr(uri)
-
-			for _, edit in ipairs(edits) do
-				table.insert(entries, {
-					bufnr = bufnr,
-					lnum = edit.range.start.line + 1,
-					col = edit.range.start.character + 1,
-				})
-			end
-		end
-	end
-	return entries
-end
-
-M._python = function(err, result)
-	if err then
-		return
-	end
-
+M._generic = function(err, result)
 	local entries = {}
 	if result.documentChanges then
 		for _, changes in ipairs(result.documentChanges) do
@@ -44,12 +18,38 @@ M._python = function(err, result)
 	return entries
 end
 
+M._python = M._generic
+M._rust = M._generic
+
+-- Specialised function as the generated table is different for Lua
+M._lua = function(err, result)
+	local entries = {}
+	if result.changes then
+		for uri, edits in pairs(result.changes) do
+			local bufnr = vim.uri_to_bufnr(uri)
+
+			for _, edit in ipairs(edits) do
+				table.insert(entries, {
+					bufnr = bufnr,
+					lnum = edit.range.start.line + 1,
+					col = edit.range.start.character + 1,
+				})
+			end
+		end
+	end
+	return entries
+end
+
 M.rename_with_qflist = function()
 	local pos_params = vim.lsp.util.make_position_params()
 	local new_name = vim.fn.input({ prompt = "Type the new name: ", default = vim.fn.expand("<cword>") })
 
 	pos_params.newName = new_name
 	vim.lsp.buf_request(0, "textDocument/rename", pos_params, function(err, result, ...)
+		if err then
+			return
+		end
+
 		local lang = vim.api.nvim_buf_get_option(0, "filetype")
 		local entries = M["_" .. lang](err, result)
 		vim.lsp.handlers["textDocument/rename"](err, result, ...)
