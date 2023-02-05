@@ -94,7 +94,6 @@ local langs = {
 vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = langs,
 	callback = function()
-		lvim.lsp.buffer_mappings.normal_mode["<leader>lr"] = nil
 		lvim.lsp.buffer_mappings.normal_mode["<leader>lr"] = { lsp_handlers.rename_with_qflist, "Rename with qflist" }
 	end,
 	group = vim.api.nvim_create_augroup("RenameWithQflist", { clear = true }),
