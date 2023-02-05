@@ -87,7 +87,7 @@ vim.keymap.set("n", "<leader>cs", utils.cht_sh_search)
 
 -- Custom LSP handlers keymaps
 vim.api.nvim_create_autocmd("BufEnter", {
-	pattern = { "*py", "*.lua" },
+	pattern = { "*.py", "*.lua" },
 	callback = function()
 		lvim.lsp.buffer_mappings.normal_mode["<leader>lr"] = nil
 		lvim.lsp.buffer_mappings.normal_mode["<leader>lr"] = { lsp_handlers.rename_with_qflist, "Rename with qflist" }
