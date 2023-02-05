@@ -88,12 +88,6 @@ local neogen_opts = {
 	snippet_engine = "luasnip",
 }
 neogen.setup(neogen_opts)
-lvim.keys.normal_mode["<leader>ds"] = "<cmd>Neogen<cr>"
-lvim.keys.insert_mode["'''<cr>"] = "<esc><cmd>norm dd<cr>k <cmd>Neogen<cr>"
-lvim.keys.insert_mode['"""<cr>'] = "<esc><cmd>norm dd<cr>k <cmd>Neogen<cr>"
-
--- LazyGit setup
-lvim.keys.normal_mode["<leader>lg"] = "<cmd>LazyGit<cr>"
 
 -- Treesitter-context setup
 local treesitter_ctx = require("treesitter-context")

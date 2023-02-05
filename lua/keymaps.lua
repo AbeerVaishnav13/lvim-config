@@ -39,9 +39,9 @@ lvim.lsp.buffer_mappings.normal_mode["K"] = nil
 lvim.lsp.buffer_mappings.normal_mode["<leader>lj"] = nil
 lvim.lsp.buffer_mappings.normal_mode["<leader>lk"] = nil
 
----- Disable the annoying <leader>c (Close Buffer)
----- mapping from whichkey
+---- Disable the annoying mappings
 lvim.builtin.which_key.mappings["c"] = nil
+lvim.builtin.which_key.mappings["q"] = nil
 
 -- Visual mode
 ---- global keymaps
@@ -86,4 +86,14 @@ vim.keymap.set("n", "<leader>ss", utils.save_and_source)
 vim.keymap.set("n", "<leader>cs", utils.cht_sh_search)
 
 -- Custom LSP handlers keymaps
-vim.keymap.set({ "n", "v" }, "<leader>qr", lsp_handlers.rename_with_qflist)
+-- vim.keymap.set({ "n", "v" }, "<leader>lr", lsp_handlers.rename_with_qflist)
+lvim.lsp.buffer_mappings.normal_mode["<leader>lr"] = { lsp_handlers.rename_with_qflist, "Rename" }
+
+-- Plugin keymaps
+-- Neogen
+lvim.keys.normal_mode["<leader>nds"] = "<cmd>Neogen<cr>"
+lvim.keys.insert_mode["'''<cr>"] = "<esc><cmd>norm dd<cr>k <cmd>Neogen<cr>"
+lvim.keys.insert_mode['"""<cr>'] = "<esc><cmd>norm dd<cr>k <cmd>Neogen<cr>"
+
+-- LazyGit setup
+lvim.keys.normal_mode["<leader>lg"] = "<cmd>LazyGit<cr>"
