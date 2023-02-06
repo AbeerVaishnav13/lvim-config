@@ -1,8 +1,8 @@
--- Keymappings [view all the defaults by pressing <leader>sk]
+-- Keymappings [view all by pressing <leader>sk]
 
 -- Import util functions and LSP handlers
 local utils = require("utils")
-local lsp_handlers = require("cstm-lsp-handlers")
+local lsp_handlers = require("lsp-handlers")
 
 ---- Leader keymap
 lvim.leader = "space"
@@ -26,7 +26,7 @@ lvim.keys.normal_mode["<c-w><c-h>"] = "<c-w>t<c-w>K"
 lvim.keys.normal_mode["K"] = "<cmd>BufferLineCycleNext<cr>"
 lvim.keys.normal_mode["H"] = "<cmd>BufferLineCyclePrev<cr>"
 lvim.keys.normal_mode["<c-t>"] = "<cmd>vsplit<cr><cmd>term fish<cr>A"
-vim.keymap.set("n", "S", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<left><left><left>")
+vim.keymap.set("n", "S", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<left><left><left>", { desc = "Search & Replace" })
 
 ---- LSP keymaps
 lvim.lsp.buffer_mappings.normal_mode["gk"] = { vim.lsp.buf.hover, "Show Documentation" }
@@ -51,22 +51,22 @@ lvim.keys.visual_mode["k"] = "l"
 
 -- Normal/Visual --> Command mode
 ---- global keymaps
-vim.keymap.set({ "n", "v" }, ";", ":")
-vim.keymap.set({ "n", "v" }, ":", ";")
+vim.keymap.set({ "n", "v" }, ";", ":", { desc = "Command mode" })
+vim.keymap.set({ "n", "v" }, ":", ";", { desc = "Repeat last find (f or t key)" })
 
 -- Insert mode
 ---- global keymaps
 lvim.keys.insert_mode["<C-c>"] = "<esc><cmd>noh<cr>"
 
 -- Modify the quitting functionality
-vim.keymap.set({ "n", "v" }, "Q", utils.buf_close_or_quit)
+vim.keymap.set({ "n", "v" }, "Q", utils.buf_close_or_quit, { desc = "Close Buffer or Quit" })
 vim.keymap.set("t", "SQ", function()
 	utils.buf_close_or_quit("!")
-end, { silent = true })
+end, { silent = true, desc = "Close Buffer or Quit" })
 
 -- Some extra keymaps (inspired from ThePrimagen)
 ---- Paste without copying new text
-vim.keymap.set("x", "p", '"_dP')
+vim.keymap.set("x", "p", '"_dP', { desc = "Paste w/o copying visual selection" })
 
 ---- Move selected lines
 lvim.keys.visual_mode["J"] = ":m '>+1<cr>gv=gv"
@@ -80,10 +80,10 @@ lvim.keys.normal_mode["n"] = "nzz"
 lvim.keys.normal_mode["N"] = "Nzz"
 
 -- Save and source the current lua file
-vim.keymap.set("n", "<leader>ss", utils.save_and_source)
+vim.keymap.set("n", "<leader>ss", utils.save_and_source, { desc = "Save and source currfile" })
 
 -- Cht.sh integration for queries
-vim.keymap.set("n", "<leader>cs", utils.cht_sh_search)
+vim.keymap.set("n", "<leader>cs", utils.cht_sh_search, { desc = "Search Cht.sh" })
 
 -- Custom LSP handlers keymaps
 local langs = {
