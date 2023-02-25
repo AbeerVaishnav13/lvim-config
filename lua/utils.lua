@@ -51,7 +51,8 @@ M.cht_sh_search = function()
 	vim.cmd("term fish")
 
 	vim.fn.setreg("a", url)
-	vim.api.nvim_feedkeys('$"apA', "n", false)
+	local keys = vim.api.nvim_replace_termcodes('$"apA<CR>', true, false, true)
+	vim.api.nvim_feedkeys(keys, "n", true)
 end
 
 M.set_transparency = function()
