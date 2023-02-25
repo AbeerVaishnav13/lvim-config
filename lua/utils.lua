@@ -51,7 +51,6 @@ M.cht_sh_search = function()
 	vim.cmd("term fish")
 
 	vim.fn.setreg("a", url)
-	-- vim.cmd('norm $"apA')
 	vim.api.nvim_feedkeys('$"apA', "n", false)
 end
 
@@ -70,7 +69,7 @@ M.set_transparency = function()
 	vim.cmd("edit ~/.config/alacritty/alacritty.yml")
 	local line_col = vim.fn.searchpos("opacity: [0-1].[0-9]")
 	vim.api.nvim_buf_set_lines(0, line_col[1], line_col[1], true, { "  opacity: " .. transparency_str })
-	vim.cmd("norm dd")
+	vim.api.nvim_feedkeys("dd", "n", false)
 	vim.cmd("write")
 	vim.cmd("bdelete")
 end
