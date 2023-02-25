@@ -25,7 +25,7 @@ lvim.keys.normal_mode["<c-w><c-v>"] = "<c-w>t<c-w>H"
 lvim.keys.normal_mode["<c-w><c-h>"] = "<c-w>t<c-w>K"
 lvim.keys.normal_mode["K"] = "<cmd>BufferLineCycleNext<cr>"
 lvim.keys.normal_mode["H"] = "<cmd>BufferLineCyclePrev<cr>"
-lvim.keys.normal_mode["<c-t>"] = "<cmd>vsplit<cr><cmd>term fish<cr>A"
+lvim.keys.normal_mode["T"] = "<cmd>vsplit<cr><cmd>term fish<cr>A"
 vim.keymap.set("n", "S", ":%s/\\<<c-r><c-w>\\>/<c-r><c-w>/gI<left><left><left>", { desc = "Search & Replace" })
 
 ---- LSP keymaps
@@ -84,6 +84,9 @@ vim.keymap.set("n", "<leader>ss", utils.save_and_source, { desc = "Save and sour
 
 -- Cht.sh integration for queries
 vim.keymap.set("n", "<leader>cs", utils.cht_sh_search, { desc = "Search Cht.sh" })
+
+-- Change Alacritty transparency
+vim.keymap.set("n", "<leader>ct", utils.set_transparency, { desc = "Set Alacritty transparency" })
 
 -- Custom LSP handlers keymaps
 local langs = {

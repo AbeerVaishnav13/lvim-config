@@ -55,4 +55,24 @@ M.cht_sh_search = function()
 	vim.api.nvim_feedkeys('$"apA', "n", false)
 end
 
+M.set_transparency = function()
+	local input = vim.fn.input({ prompt = "Enter terminal transparency (0-100): " })
+	local transparency = tonumber(input) / 100
+	if transparency > 1 then
+		error("Enter a number between 0-100 only otherwise your eyes will burn!!")
+	end
+
+	local transparency_str = tostring(transparency)
+	if string.len(transparency_str) < 3 then
+		transparency_str = transparency_str .. ".0"
+	end
+
+	vim.cmd("edit ~/.config/alacritty/alacritty.yml")
+	local line_col = vim.fn.searchpos("opacity: [0-1].[0-9]")
+	vim.api.nvim_buf_set_lines(0, line_col[1], line_col[1], true, { "  opacity: " .. transparency_str })
+	vim.cmd("norm dd")
+	vim.cmd("write")
+	vim.cmd("bdelete")
+end
+
 return M
